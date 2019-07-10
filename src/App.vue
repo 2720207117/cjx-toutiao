@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    App.vue 根组件
-    <el-button type="primary" plain>主要按钮</el-button>
+    <!-- 一级路由渲染的位置 -->
+    <router-view></router-view>
   </div>
 </template>
 

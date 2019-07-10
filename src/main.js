@@ -1,7 +1,10 @@
+// main.js 职责1：依赖项目需要的资源 (js模块 css资源 ...)
+//         职责2：实例化根实例  render()  渲染App组件 然后挂载到#app的容器内
+
 import Vue from 'vue'
 import App from './App.vue'
 
-import ElementUI from 'element-ui' // 导包
+import ElementUI from 'element-ui' // 导包 (使用element-ui框架)
 import 'element-ui/lib/theme-chalk/index.css' // 引入样式
 
 // 默认会加载索引文件 (索引文件：index.js index.vue index.json ...)
@@ -10,10 +13,8 @@ import router from '@/router'
 
 Vue.use(ElementUI) // 在全局注册组件 (注册element-ui组件库)
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false // 在页面控制台 提示/不提示开发环境
 
-// main.js 职责1：依赖项目需要的资源 (js模块 css资源 ...)
-//         职责2：实例化根实例  render()  渲染App组件 然后挂载到#app的容器内
 new Vue({
   router,
   render: h => h(App)
