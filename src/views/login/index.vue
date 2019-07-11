@@ -38,8 +38,8 @@ export default {
     return {
     // 表单对应的对象
       loginForm: {
-        mobile: '',
-        code: ''
+        mobile: '13439211668',
+        code: '246810'
       },
       // 表单的校验规则对象
       loginRules: {
@@ -64,7 +64,22 @@ export default {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           // 如果校验成 进行登录
-          alert('表单校验成功，正在进行登录！')
+          this.$http.post(
+            'http://ttapi.research.itcast.cn/mp/v1_0/authorizations', this.loginForm
+          ).then(res => {
+            // res是响应对象 包含响应数据
+            const data = res.data
+            // 后台返回的json内容，已经转换成了对象
+            console.log(data)
+
+            // 登录成功后要做什么？
+            // 1. 跳转到首页
+            // 2. 保持登录状态
+            this.$router.push('/')
+          }).catch(() => {
+            // 提示错误 使用组件 消息提示组件
+            this.$message.error('手机号或验证码输入错误！')
+          })
         }
       })
     }
