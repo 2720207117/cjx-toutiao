@@ -44,7 +44,6 @@ export default {
           { required: true, message: '验证码必填', trigger: 'blur' }
         ]
       },
-
       // 默认选中复选框
       checked: true
 
