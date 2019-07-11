@@ -4,9 +4,15 @@
         <img src="../../assets/images/logo_index.png" alt="logo_index.png">
 
         <!-- 表单 -->
+<<<<<<< HEAD
+      <el-form>  <!-- 表单组件 -->
+        <el-form-item>  <!-- 表单项组件 -->
+          <el-input placeholder="请输入手机号"></el-input>  <!-- 表单元素 -->
+=======
       <el-form :model="loginForm" :rules="loginRules">  <!-- 表单组件 -->
         <el-form-item prop="mobile">  <!-- 表单项组件 -->
           <el-input placeholder="请输入手机号" v-model="loginForm.mobile"></el-input>  <!-- 表单元素 -->
+>>>>>>> 9890aa9fa79ad5e1a4e914a50b0df40973a32dee
         </el-form-item>
         <el-form-item prop="code">  <!-- 表单项组件 -->
           <el-input placeholder="验证码" style="width: 280px;" v-model="loginForm.code"></el-input>  <!-- 表单元素 -->
