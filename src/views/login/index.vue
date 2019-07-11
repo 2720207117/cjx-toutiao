@@ -4,7 +4,7 @@
         <img src="../../assets/images/logo_index.png" alt="logo_index.png">
 
         <!-- 表单 -->
-         <el-form>  <!-- 表单组件 -->
+      <el-form>  <!-- 表单组件 -->
         <el-form-item>  <!-- 表单项组件 -->
           <el-input placeholder="请输入手机号"></el-input>  <!-- 表单元素 -->
         </el-form-item>
@@ -16,7 +16,7 @@
           <el-checkbox v-model="checked"></el-checkbox> 我已阅读并同意<el-link type="primary">用户协议</el-link>和<el-link type="primary">隐私条款</el-link>
         </el-form-item>
         <el-form-item>
-            <el-button type="primary" style="width: 100%">登录</el-button>
+          <el-button type="primary" style="width: 100%">登录</el-button>
         </el-form-item>
       </el-form>
     </el-card>
