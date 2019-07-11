@@ -3,8 +3,8 @@
     <el-card class="box-card">
         <img src="../../assets/images/logo_index.png" alt="logo_index.png">
 
-        <!-- 表单 -->
-      <el-form :model="loginForm" :rules="loginRules">  <!-- 表单组件 -->
+      <!-- 表单 -->
+      <el-form status-icon :model="loginForm" :rules="loginRules" ref="loginForm">  <!-- 表单组件 -->
         <el-form-item prop="mobile">  <!-- 表单项组件 -->
           <el-input placeholder="请输入手机号" v-model="loginForm.mobile"></el-input>  <!-- 表单元素 -->
         </el-form-item>
@@ -16,7 +16,7 @@
           <el-checkbox v-model="checked"></el-checkbox> 我已阅读并同意<el-link type="primary">用户协议</el-link>和<el-link type="primary">隐私条款</el-link>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" style="width: 100%">登录</el-button>
+          <el-button type="primary" style="width: 100%" @click="login()">登录</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -27,26 +27,62 @@
 export default {
   // 导出
   data () {
+    const checkMobile = (rule, value, callback) => {
+      // 具体的校验逻辑
+      if (/^1[3-9]\d{9}$/.test(value)) {
+        callback()
+      } else {
+        callback(new Error('手机号格式不正确'))
+      }
+    }
     return {
       // 表单对应的对象
       loginForm: {
-        mobile: '',
-        code: ''
+        mobile: '13439211668',
+        code: '246810'
       },
       // 表单的校验规则对象
       loginRules: {
         mobile: [
           // 具体的校验规则 例: 是否必填 长度 格式
           { required: true, message: '手机号必填', trigger: 'blur' },
-          { max: 11, min: 11, message: '手机号为11位数字', trigger: 'blur' }
+          { validator: checkMobile, trigger: 'blur' }
         ],
         code: [
-          { required: true, message: '验证码必填', trigger: 'blur' }
+          { required: true, message: '验证码必填', trigger: 'blur' },
+          { len: 6, message: '验证码必须为6位', trigger: 'blur' }
         ]
       },
       // 默认选中复选框
       checked: true
 
+    }
+  },
+  methods: {
+    login () {
+      // 整体表单的校验
+      // 如果校验成功进行登录
+      this.$refs.loginForm.validate((valid) => {
+        if (valid) {
+          // 如果校验成 进行登录
+          this.$http.post(
+            'http://ttapi.research.itcast.cn/mp/v1_0/authorizations', this.loginForm
+          ).then(res => {
+            // res是响应对象 包含响应数据
+            const data = res.data
+            // 后台返回的json内容，已经转换成了对象
+            console.log(data)
+
+            // 登录成功后要做什么？
+            // 1. 跳转到首页
+            // 2. 保持登录状态
+            this.$router.push('/')
+          }).catch(() => {
+            // 提示错误 使用组件 消息提示组件
+            this.$message.error('手机号或验证码输入错误！')
+          })
+        }
+      })
     }
   }
 }
