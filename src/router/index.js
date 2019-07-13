@@ -5,10 +5,13 @@ import Vue from 'vue' // 注册vueRouter需要Vue对象   先导入Vue
 import Login from '@/views/login' // 导入login组件
 import Home from '@/views/home' // 导入home组件
 import Welcome from '@/views/welcome' // 导入welcome组件 为 home组件的子组件
+import NotFound from '@/views/notfound' // 导入notfound组件
 Vue.use(VueRouter) // 注册vueRouter
 
 const router = new VueRouter({ // 初始化router对象  (配置路由规则)
   routes: [
+    // 路由走到这个位置，证明没有任何程序去处理这个路径
+    { name: '404', path: '*', component: NotFound },
     { name: 'login', path: '/login', component: Login },
     { path: '/',
       component: Home,
@@ -16,6 +19,7 @@ const router = new VueRouter({ // 初始化router对象  (配置路由规则)
         { name: 'welcome', path: '/', component: Welcome }
       ]
     }
+
   ]
 })
 
