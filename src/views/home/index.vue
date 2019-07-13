@@ -68,7 +68,8 @@
         </el-dropdown>
       </el-header>
       <el-main>
-        <img src="../../assets/images/welcome.jpg" alt="welcome.jpg" />
+        <!-- 显示二级路由对应的组件 -->
+        <router-view></router-view>
       </el-main>
     </el-container>
   </el-container>
