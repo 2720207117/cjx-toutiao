@@ -76,7 +76,11 @@ export default {
             // 登录成功后要做什么？
             // 1. 跳转到首页
             // 2. 保持登录状态
-            this.$router.push('/')
+            // 2.1 保存登录后返回的用户信息 包含token
+            // 2.2 使用 sessionStorage 来储存 关闭浏览器回话失效
+            // sessionStorage.setItem('key', 'value') 都为字符串格式 res.data.data是对象格式 须用 JSON.stringfy转为json字符串格式
+            window.sessionStorage.setItem('hm-toutiao', JSON.stringify(res.data.data))
+            this.$router.push('/') // ---> 跳转到首页
           }).catch(() => {
             // 提示错误 使用组件 消息提示组件
             this.$message.error('手机号或验证码输入错误！')
