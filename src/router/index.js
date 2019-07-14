@@ -19,8 +19,29 @@ const router = new VueRouter({ // 初始化router对象  (配置路由规则)
         { name: 'welcome', path: '/', component: Welcome }
       ]
     }
-
   ]
+})
+
+// 注册一个全局的前置导航守卫
+router.beforeEach((to, from, next) => { // to: 即将要进入的目标；from：当前导航正要离开的路由；next: 一定要调用该方法
+  // 如果不去主动的去触发 resolve (next 下一步) 会一直等待
+  // console.log('0K!')
+
+  // 麻烦
+  // 如果是登录页 放行
+  // if (to.path === '/login') return next()
+  // 判断登录状态
+  // const user = window.sessionStorage.getItem('hm-toutiao')
+  // if (user) {
+  //   next()
+  // } else {
+  //   next('/login')
+  // }
+
+  // 简单
+  const user = window.sessionStorage.getItem('hm-toutiao')
+  if (to.path !== '/login' && !user) return next('/login')
+  next()
 })
 
 export default router // 导出router
