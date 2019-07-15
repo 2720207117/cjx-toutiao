@@ -26,4 +26,19 @@ instance.interceptors.request.use(config => {
   return Promise.reject(error)
 })
 
+// 响应拦截器   (token有效期为两小时，token失效时，服务端会认为未认证，提示 401错误。处理：重新登录)
+instance.interceptors.response.use(response => {
+  return response // 默认写法 如果不return 无法拿到响应结果
+}, (error) => {
+  // 抛错之前 做自己的事情：错误的时候
+  // 如果响应状态码是 401 拦截到登录页面
+  // error.response.status   错误信息的响应状态码
+  console.dir(error)
+  if (error.response.status === 401) {
+    // hash 是location提供的获取 或 操作地址栏的 # 后的地址的属性   (location还可以操作href :会跳转页面；hash不会跳转页面)
+    location.hash = '#/login'
+  }
+  return Promise.reject(error)
+})
+
 export default instance // 导出instance
