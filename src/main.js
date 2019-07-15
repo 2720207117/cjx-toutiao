@@ -13,6 +13,11 @@ import router from '@/router'
 
 import axios from 'axios'
 
+axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0/' // defaults(默认配置) 修改默认配置
+axios.defaults.headers = {
+  Authorization: 'Bearer ' + JSON.parse(window.sessionStorage.getItem('hm-toutiao')).token
+}
+
 // 将axios挂载到原型上,在全局使用
 Vue.prototype.$http = axios
 

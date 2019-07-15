@@ -39,8 +39,8 @@ router.beforeEach((to, from, next) => { // to: 即将要进入的目标；from�
   // }
 
   // 简单
-  const user = window.sessionStorage.getItem('hm-toutiao')
-  if (to.path !== '/login' && !user) return next('/login')
+  const user = window.sessionStorage.getItem('hm-toutiao') // 获取token
+  if (to.path !== '/login' && !user) return next('/login') // 如果不是去登录页 并且 没有token 就跳转到登录页
   next()
 })
 
