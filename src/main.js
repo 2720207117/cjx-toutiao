@@ -11,7 +11,7 @@ import 'element-ui/lib/theme-chalk/index.css' // 引入样式
 // 在vue-cli创建的项目中 @的前缀 代表的是跟路径 src目录
 import router from '@/router'
 
-import axios from 'axios'
+import axios from '@/api/axios'
 
 // 将axios挂载到原型上,在全局使用
 Vue.prototype.$http = axios
