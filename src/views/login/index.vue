@@ -62,29 +62,44 @@ export default {
     login () {
       // 整体表单的校验
       // 如果校验成功进行登录
-      this.$refs.loginForm.validate((valid) => {
-        if (valid) {
-          // 如果校验成 进行登录
-          this.$http.post(
-            'http://ttapi.research.itcast.cn/mp/v1_0/authorizations', this.loginForm
-          ).then(res => {
-            // res是响应对象 包含响应数据
-            const data = res.data
-            // 后台返回的json内容，已经转换成了对象
-            console.log(data)
+      // this.$refs.loginForm.validate((valid) => {
+      //   if (valid) {
+      //     // 如果校验成 进行登录
+      //     this.$http.post(
+      //       'http://ttapi.research.itcast.cn/mp/v1_0/authorizations', this.loginForm
+      //     ).then(res => {
+      //       // res是响应对象 包含响应数据
+      //       const data = res.data
+      //       // 后台返回的json内容，已经转换成了对象
+      //       console.log(data)
 
-            // 登录成功后要做什么？
-            // 1. 跳转到首页
-            // 2. 保持登录状态
-            // 2.1 保存登录后返回的用户信息 包含token
-            // 2.2 使用 sessionStorage 来储存 关闭浏览器回话失效
-            // sessionStorage.setItem('key', 'value') 都为字符串格式 res.data.data是对象格式 须用 JSON.stringfy转为json字符串格式
-            window.sessionStorage.setItem('hm-toutiao', JSON.stringify(res.data.data))
-            this.$router.push('/') // ---> 跳转到首页
-          }).catch(() => {
+      //       // 登录成功后要做什么？
+      //       // 1. 跳转到首页
+      //       // 2. 保持登录状态
+      //       // 2.1 保存登录后返回的用户信息 包含token
+      //       // 2.2 使用 sessionStorage 来储存 关闭浏览器回话失效
+      //       // sessionStorage.setItem('key', 'value') 都为字符串格式 res.data.data是对象格式 须用 JSON.stringfy转为json字符串格式
+      //       window.sessionStorage.setItem('hm-toutiao', JSON.stringify(res.data.data))
+      //       this.$router.push('/') // ---> 跳转到首页
+      //     }).catch(() => {
+      //       // 提示错误 使用组件 消息提示组件
+      //       this.$message.error('手机号或验证码输入错误！')
+      //     })
+      //   }
+      // })
+
+      this.$refs.loginForm.validate(async (valid) => {
+        if (valid) {
+          // 当接口调用失败的时候，以下代码出现异常
+          // js语法： try{ 业务逻辑 }catch(err){ 业务逻辑失败调用catch，进行错误的处理 }
+          try {
+            const res = await this.$http.post('authorizations', this.loginForm) // 获取响应对象
+            window.sessionStorage.setItem('hm-toutiao', JSON.stringify(res.data.data)) // 将有关token信息的数据保存到sessionStorage
+            this.$router.push('/') // 跳转到首页
+          } catch (error) {
             // 提示错误 使用组件 消息提示组件
-            this.$message.error('手机号或验证码输入错误！')
-          })
+            this.$message.error('手机号或验证码输入错误')
+          }
         }
       })
     }
