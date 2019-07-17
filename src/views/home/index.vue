@@ -57,14 +57,8 @@
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>
-              <span class="el-icon-s-operation"></span>
-              个人设置
-            </el-dropdown-item>
-            <el-dropdown-item>
-              <span class="el-icon-unlock"></span>
-              退出登录
-            </el-dropdown-item>
+            <el-dropdown-item class="el-icon-s-operation" @click.native="setting()">个人设置</el-dropdown-item><br>
+            <el-dropdown-item class="el-icon-unlock" @click.native="logout()">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-header>
@@ -93,6 +87,19 @@ export default {
   methods: {
     toggleMenu () {
       this.collapse = !this.collapse
+    },
+    // click 事件是给 el-dropdown-item 绑定的
+    // 它不是原生的dom, 不一定支持原生的事件绑定
+    // 如果想给组件绑定原声的事件，需要给组件解析后的原生标签绑定
+    // 使用一个事件修饰符，例子：@click.prevent 阻止默认行为  @click.native 触发原生事件
+    setting () {
+      this.$router.push('/setting') // 编程式导航 跳转路由
+    },
+    logout () {
+      alert('退出登录点击事件注册成功')
+      window.sessionStorage.setItem('hm-toutiao', null)
+      // window.sessionStorage.removeItem('hm-toutiao')
+      this.$router.push('/login')
     }
   }
 }
