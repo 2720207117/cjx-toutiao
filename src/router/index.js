@@ -6,6 +6,7 @@ import Login from '@/views/login' // 导入login组件
 import Home from '@/views/home' // 导入home组件
 import Welcome from '@/views/welcome' // 导入welcome组件 为 home组件的子组件
 import NotFound from '@/views/notfound' // 导入notfound组件
+import Article from '@/views/article' // 导入article组件
 Vue.use(VueRouter) // 注册vueRouter
 
 const router = new VueRouter({ // 初始化router对象  (配置路由规则)
@@ -16,7 +17,8 @@ const router = new VueRouter({ // 初始化router对象  (配置路由规则)
     { path: '/',
       component: Home,
       children: [
-        { name: 'welcome', path: '/', component: Welcome }
+        { name: 'welcome', path: '/', component: Welcome },
+        { name: 'article', path: '/article', component: Article }
       ]
     }
   ]
