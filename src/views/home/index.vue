@@ -52,8 +52,8 @@
         <span class="text">江苏传智播客教育有限公司</span>
         <el-dropdown class="select">
           <span class="el-dropdown-link">
-            <img width="30px" src="../../assets/images/avatar.jpg" alt="头像" />
-            <b style="vertical-algin: middle">疯狂的打火机</b>
+            <img width="30px" :src="avatar" alt="头像" />
+            <b style="vertical-algin: middle">{{name}}</b>
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
@@ -81,8 +81,14 @@ export default {
   data () {
     return {
       collapse: false,
-      bcgurl: `url(../../assets/images/logo_admin.png) no-repeat center / 140px auto`
+      name: '', // 定义用户的名字
+      avatar: '' // 定义用户的头像
     }
+  },
+  created () { // 钩子函数 组件初始化(创建)成功的时候
+    const user = JSON.parse(window.sessionStorage.getItem('hm-toutiao')) // 获取用户数据 并且转成json对象格式
+    this.name = user.name // 将获取到的用户名字赋值给定义的名字 --> 用{{name}}
+    this.avatar = user.photo // 将获取到的用户头像信息赋值给定义的头像  --> 使用用v-bind 即: 绑定src属性  :src="avatar"
   },
   methods: {
     toggleMenu () {
