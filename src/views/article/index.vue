@@ -4,10 +4,13 @@
     <el-card>
       <div slot="header">
         <!-- 头部 面包屑导航 -->
-        <el-breadcrumb separator-class="el-icon-arrow-right">
+  <!--  <el-breadcrumb separator-class="el-icon-arrow-right">
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
           <el-breadcrumb-item>内容管理</el-breadcrumb-item>
-        </el-breadcrumb>
+        </el-breadcrumb> -->
+
+        <!-- 使用面包屑导航组件 -->
+        <my-bread>内容管理</my-bread>
       </div>
 
       <!-- 筛选容器内容 -->
@@ -51,21 +54,15 @@
 
     <!-- 结果容器 -->
     <el-card>
-      <my-test>
-        <!-- 此写法是 vue版本 2.6.0 之前的写法 -->
-        <!-- <template slot="con" slot-scope="scope">{{scope.text}}</template> -->
 
-        <!-- 现在写法 -->
-        <template v-slot:con="scope">{{scope.text}}</template>
-      </my-test>
     </el-card>
   </div>
 </template>
 
 <script>
-import MyTest from '@/components/my-test.vue' // 导入自定义公共组件
+import MyBread from '@/components/my-bread.vue' // 导入自定义公共组件
 export default {
-  components: { MyTest },
+  components: { MyBread },
   data () {
     return {
       // 提交给后台的筛选条件 传参
