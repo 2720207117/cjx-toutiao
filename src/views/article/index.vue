@@ -50,12 +50,22 @@
     </el-card>
 
     <!-- 结果容器 -->
-    <el-card>结果容器</el-card>
+    <el-card>
+      <my-test>
+        <!-- 此写法是 vue版本 2.6.0 之前的写法 -->
+        <!-- <template slot="con" slot-scope="scope">{{scope.text}}</template> -->
+
+        <!-- 现在写法 -->
+        <template v-slot:con="scope">{{scope.text}}</template>
+      </my-test>
+    </el-card>
   </div>
 </template>
 
 <script>
+import MyTest from '@/components/my-test.vue' // 导入自定义公共组件
 export default {
+  components: { MyTest },
   data () {
     return {
       // 提交给后台的筛选条件 传参
