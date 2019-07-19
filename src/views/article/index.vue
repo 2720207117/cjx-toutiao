@@ -76,12 +76,25 @@ export default {
       },
 
       // 默认频道数据
-      channelOptions: [{ name: 'Java', id: 1 }],
+      channelOptions: [],
 
       // 日期控件的数据
       dateValues: []
     }
+  },
+  created () {
+  // 获取频道数据
+    this.getChannelOptions()
+  },
+  methods: {
+    async getChannelOptions () {
+      // const o = { data:{} }; const {data} = o  一层结构 对象的一层结构
+      // const res = {data:{data:{channels:[]}}}; 多层结构  const {data:{data:data}}
+      const { data: { data } } = await this.$http.get('channels')
+      this.channelOptions = data.channels
+    }
   }
+
 }
 </script>
 
