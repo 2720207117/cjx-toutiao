@@ -60,9 +60,10 @@
 </template>
 
 <script>
-import MyBread from '@/components/my-bread.vue' // 导入自定义公共组件
+// 全局使用自定义插件后 这里不需要再进行导入
+// import MyBread from '@/components/my-bread.vue' // 导入自定义公共组件
 export default {
-  components: { MyBread },
+  // components: { MyBread },
   data () {
     return {
       // 提交给后台的筛选条件 传参

@@ -13,6 +13,10 @@ import router from '@/router'
 
 import axios from '@/api/axios'
 
+import components from '@/components' // 导入自定义插件
+
+Vue.use(components) // 全局使用自定义插件
+
 // 将axios挂载到原型上,在全局使用
 Vue.prototype.$http = axios
 
