@@ -4,10 +4,10 @@
     <el-card>
       <div slot="header">
         <!-- 头部 面包屑导航 -->
-  <!--  <el-breadcrumb separator-class="el-icon-arrow-right">
+        <!--  <el-breadcrumb separator-class="el-icon-arrow-right">
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
           <el-breadcrumb-item>内容管理</el-breadcrumb-item>
-        </el-breadcrumb> -->
+        </el-breadcrumb>-->
 
         <!-- 使用面包屑导航组件 -->
         <my-bread>内容管理</my-bread>
@@ -54,7 +54,22 @@
 
     <!-- 结果容器 -->
     <el-card>
+      <div slot="header">
+        根据筛选条件共查询到
+        <b>0</b> 条结果：
+      </div>
+      <el-table :data="articles">
+        <el-table-column label="封面"></el-table-column>
+        <el-table-column label="标题"></el-table-column>
+        <el-table-column label="状态"></el-table-column>
+        <el-table-column label="发布时间"></el-table-column>
+        <el-table-column label="操作"></el-table-column>
+      </el-table>
 
+      <!-- 分页 -->
+      <div class="box">
+        <el-pagination background layout="prev, pager, next" :total="1000"></el-pagination>
+      </div>
     </el-card>
   </div>
 </template>
@@ -79,22 +94,26 @@ export default {
       channelOptions: [],
 
       // 日期控件的数据
-      dateValues: []
+      dateValues: [],
+
+      // 文章列表数据
+      articles: []
     }
   },
   created () {
-  // 获取频道数据
+    // 获取频道数据
     this.getChannelOptions()
   },
   methods: {
     async getChannelOptions () {
       // const o = { data:{} }; const {data} = o  一层结构 对象的一层结构
       // const res = {data:{data:{channels:[]}}}; 多层结构  const {data:{data:data}}
-      const { data: { data } } = await this.$http.get('channels')
+      const {
+        data: { data }
+      } = await this.$http.get('channels')
       this.channelOptions = data.channels
     }
   }
-
 }
 </script>
 
@@ -102,5 +121,9 @@ export default {
 // 注意：el-card 是组件，解析后标签的名字不是el-card，标签上类名和自定义标签名字一致
 .el-card {
   margin-bottom: 20px;
+}
+.box {
+  margin-top: 20px;
+  text-align: center;
 }
 </style>
