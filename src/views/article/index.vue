@@ -38,6 +38,8 @@
 
         <el-form-item label="时间: ">
           <el-date-picker
+            value-format="yyyy-MM-dd"
+            @change="changeDate"
             v-model="dateValues"
             type="daterange"
             range-separator="至"
@@ -47,7 +49,7 @@
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary">筛选</el-button>
+          <el-button type="primary" @click="search()">筛选</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -61,7 +63,7 @@
       <el-table :data="articles">
         <el-table-column label="封面">
           <template slot-scope="scope">
-            <el-image lazy :src="scope.row.cover.images" style="width:100px; height:75px">
+            <el-image lazy :src="scope.row.cover.images[0]" style="width:100px; height:75px">
               <div slot="error" class="image-slot">
                 <img
                   style="width:100px; height=75px"
@@ -133,6 +135,15 @@ export default {
     this.getArticles()
   },
   methods: {
+    search () {
+      // 重新获取数据
+      this.getArticles()
+    },
+    changeDate (values) { // 参数values 与 绑定的 dateValues 数据一致
+      // 给begin end 赋值 即可
+      this.reqParams.begin_pubdate = values[0]
+      this.reqParams.end_pubdate = values[1]
+    },
     async getChannelOptions () {
       // const o = { data:{} }; const {data} = o  一层结构 对象的一层结构
       // const res = {data:{data:{channels:[]}}}; 多层结构  const {data:{data:data}}
@@ -146,7 +157,7 @@ export default {
       // get传参  axios.get('get', {params:{参数对象}})
       const {
         data: { data }
-      } = await this.$http.get('articles', { params: this.params })
+      } = await this.$http.get('articles', { params: this.reqParams })
       this.articles = data.results
     }
   }
