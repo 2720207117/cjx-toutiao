@@ -58,7 +58,7 @@
     <el-card>
       <div slot="header">
         根据筛选条件共查询到
-        <b>0</b> 条结果：
+        <b>{{total}}</b> 条结果：
       </div>
       <el-table :data="articles">
         <el-table-column label="封面">
@@ -79,7 +79,7 @@
           <template slot-scope="scope">
             <!-- {{scope.row}} -->
             <el-tag v-if="scope.row.status === 0" type="info">草稿</el-tag>
-            <el-tag v-if="scope.row.status === 1" >待审核</el-tag>
+            <el-tag v-if="scope.row.status === 1">待审核</el-tag>
             <el-tag v-if="scope.row.status === 2" type="success">审核通过</el-tag>
             <el-tag v-if="scope.row.status === 3" type="warning">审核失败</el-tag>
             <el-tag v-if="scope.row.status === 4" type="danger">已删除</el-tag>
@@ -96,7 +96,14 @@
 
       <!-- 分页 -->
       <div class="box">
-        <el-pagination background layout="prev, pager, next" :total="1000"></el-pagination>
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          @current-change="changePager"
+          :current-page="this.reqParams.page"
+          :page-size="reqParams.per_page"
+          :total="total"
+        ></el-pagination>
       </div>
     </el-card>
   </div>
@@ -112,6 +119,8 @@ export default {
       // 提交给后台的筛选条件 传参
       // 数据是''和null的区别：''时会向后端传一个空数据；null时不会向后端发送该字段
       reqParams: {
+        page: 1,
+        per_page: 20,
         status: null,
         channel_id: null,
         begin_pubdate: null,
@@ -125,7 +134,10 @@ export default {
       dateValues: [],
 
       // 文章列表数据
-      articles: []
+      articles: [],
+
+      // 文章总条数
+      total: 0
     }
   },
   created () {
@@ -135,11 +147,20 @@ export default {
     this.getArticles()
   },
   methods: {
+    changePager (newPage) {
+      // newPage 单个点击的按钮的页码
+      // 更新提交给后台的参数
+      this.reqParams.page = newPage
+      // 重新获取列表数据
+      this.getArticles()
+    },
     search () {
+      this.reqParams.page = 1
       // 重新获取数据
       this.getArticles()
     },
-    changeDate (values) { // 参数values 与 绑定的 dateValues 数据一致
+    changeDate (values) {
+      // 参数values 与 绑定的 dateValues 数据一致
       // 给begin end 赋值 即可
       this.reqParams.begin_pubdate = values[0]
       this.reqParams.end_pubdate = values[1]
@@ -159,6 +180,7 @@ export default {
         data: { data }
       } = await this.$http.get('articles', { params: this.reqParams })
       this.articles = data.results
+      this.total = data.total_count
     }
   }
 }
