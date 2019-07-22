@@ -87,7 +87,7 @@
         <el-table-column prop="pubdate" label="发布时间"></el-table-column>
         <el-table-column width="120px" label="操作">
           <template slot-scope="scope">
-            <el-button icon="el-icon-edit" circle plain type="primary"></el-button>
+            <el-button icon="el-icon-edit" circle plain type="primary" @click="edit(scope.row.id)"></el-button>
             <el-button icon="el-icon-delete" circle plain type="danger" @click="del(scope.row.id)"></el-button>
           </template>
         </el-table-column>
@@ -146,6 +146,12 @@ export default {
     this.getArticles()
   },
   methods: {
+    // 编辑列表数据
+    edit (id) {
+      // 跳转路由 到 发布文章(/publish) 且 携带参数: 当前行 数据的id
+      // this.$router.push('/publish?id=' + id) // 或者下面传参写法
+      this.$router.push({ path: 'publish', query: { id } })
+    },
     // 删除列表数据
     del (id) {
       // 确认框
