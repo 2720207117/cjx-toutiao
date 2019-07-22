@@ -1,11 +1,23 @@
 // 封装axios
 import axios from 'axios' // 导入axios
 
+import JSONBig from 'json-bigint' // 导入json-bigint包 (目的：准确转换数据)
+
 const instance = axios.create({
-  baseURL: 'http://ttapi.research.itcast.cn/mp/v1_0/'
-//   headers: {     // 如果在这里设置 在客户端删除token信息会报错且无法加载页面 初始化页面的时候就会去获取session信息 里面可能没有token信息     应该在每次请求前去获取token 使用axios提供的请求拦截器
-//     Authorization: 'Bearer ' + JSON.parse(window.sessionStorage.getItem('hm-toutiao')).token
-//   }
+  baseURL: 'http://ttapi.research.itcast.cn/mp/v1_0/',
+  //   headers: {     // 如果在这里设置 在客户端删除token信息会报错且无法加载页面 初始化页面的时候就会去获取session信息 里面可能没有token信息     应该在每次请求前去获取token 使用axios提供的请求拦截器
+  //     Authorization: 'Bearer ' + JSON.parse(window.sessionStorage.getItem('hm-toutiao')).token
+  //   }
+
+  // 转换响应数据 (目的: 自己转换的数据要比axios自动转换的数据要更准确 方便使用id 删除数据)
+  transformResponse: [ (data) => {
+    // 处理格式
+    // data 可能没有数据 为null 严谨判断
+    if (data) {
+      return JSONBig.parse(data)
+    }
+    return data
+  }]
 })
 
 // 请求拦截器
