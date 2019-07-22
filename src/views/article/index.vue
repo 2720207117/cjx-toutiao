@@ -88,7 +88,7 @@
         <el-table-column width="120px" label="操作">
           <template slot-scope="scope">
             <el-button icon="el-icon-edit" circle plain type="primary"></el-button>
-            <el-button icon="el-icon-delete" circle plain type="danger"></el-button>
+            <el-button icon="el-icon-delete" circle plain type="danger" @click="del(scope.row.id)"></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -146,6 +146,29 @@ export default {
     this.getArticles()
   },
   methods: {
+    // 删除列表数据
+    del (id) {
+      // 确认框
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '温馨提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        // 点击确认 发送删除请求
+        await this.$http.delete(`articles/${id}`)
+        // 删除成功后做什么
+        this.getArticles()
+        this.$message({
+          // type: 'success',
+          // message: '删除成功!'
+        })
+      }).catch(() => {
+        this.$message({
+          // type: 'info',
+          // message: '已取消删除'
+        })
+      })
+    },
     changePager (newPage) {
       // newPage 单个点击的按钮的页码
       // 更新提交给后台的参数

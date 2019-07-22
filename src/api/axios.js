@@ -12,11 +12,11 @@ const instance = axios.create({
   // 转换响应数据 (目的: 自己转换的数据要比axios自动转换的数据要更准确 方便使用id 删除数据)
   transformResponse: [ (data) => {
     // 处理格式
-    // data 可能没有数据 为null 严谨判断
-    if (data) {
+    // data 可能没有数据 为null (为null时会报错) 严谨判断
+    if (data) { // 假如有数据 进行转换
       return JSONBig.parse(data)
     }
-    return data
+    return data // 如果数据为 null 直接return 不去做转换
   }]
 })
 
@@ -46,7 +46,8 @@ instance.interceptors.response.use(response => {
   // 如果响应状态码是 401 拦截到登录页面
   // error.response.status   错误信息的响应状态码
   console.dir(error)
-  if (error.response.status === 401) {
+  // 判断时应严谨处理 可能会没有响应数据 若此时还再对空数据进行操作会报错 所以要排除空数据 (做判断时加上 error.response)
+  if (error.response && error.response.status === 401) {
     // hash 是location提供的获取 或 操作地址栏的 # 后的地址的属性   (location还可以操作href :会跳转页面；hash不会跳转页面)
     location.hash = '#/login'
   }
