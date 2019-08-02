@@ -1,5 +1,7 @@
 <template>
   <div class="container">
+    <my-channel @input="fn"></my-channel>
+    {{textData}}
     <!-- 筛选容器 -->
     <el-card>
       <div slot="header">
@@ -115,6 +117,7 @@ export default {
   // components: { MyBread },
   data () {
     return {
+      textData: '',
       // 提交给后台的筛选条件 传参
       // 数据是''和null的区别：''时会向后端传一个空数据；null时不会向后端发送该字段
       reqParams: {
@@ -146,6 +149,9 @@ export default {
     this.getArticles()
   },
   methods: {
+    fn (childText) {
+      this.textData = childText
+    },
     // 编辑列表数据
     edit (id) {
       // 跳转路由 到 发布文章(/publish) 且 携带参数: 当前行 数据的id
